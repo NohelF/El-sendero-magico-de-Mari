@@ -36,14 +36,15 @@ class SoundEngine {
     return this.isMuted;
   }
 
-  // Play gentle cozy fantasy background synth arpeggio
+  // Play gentle mystical enchanted forest background music
   public startAmbientMusic() {
     if (this.isPlayingMusic) return;
     this.initContext();
     if (!this.ctx) return;
 
     this.isPlayingMusic = true;
-    const notes = [261.63, 329.63, 392.00, 493.88, 523.25, 659.25]; // C4, E4, G4, B4, C5, E5
+    // Mystical Celtic / Enchanted Forest scale (D Dorian / Lydian magical progression)
+    const melody = [293.66, 369.99, 440.00, 554.37, 587.33, 659.25, 739.99, 587.33, 440.00]; // D4, F#4, A4, C#5, D5, E5, F#5, D5, A4
     let noteIndex = 0;
 
     const playNextNote = () => {
@@ -51,29 +52,35 @@ class SoundEngine {
 
       try {
         const osc = this.ctx.createOscillator();
+        const osc2 = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         
         osc.type = 'sine';
-        const freq = notes[noteIndex % notes.length];
+        osc2.type = 'triangle';
+        const freq = melody[noteIndex % melody.length];
         osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+        osc2.frequency.setValueAtTime(freq * 0.5, this.ctx.currentTime); // subtle sub-octave warmth
         
-        gain.gain.setValueAtTime(0.001, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.04, this.ctx.currentTime + 0.1);
-        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 1.8);
+        gain.gain.setValueAtTime(0.0001, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.035, this.ctx.currentTime + 0.15);
+        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 2.2);
 
         osc.connect(gain);
+        osc2.connect(gain);
         gain.connect(this.ctx.destination);
 
         osc.start();
-        osc.stop(this.ctx.currentTime + 2.0);
+        osc2.start();
+        osc.stop(this.ctx.currentTime + 2.3);
+        osc2.stop(this.ctx.currentTime + 2.3);
 
-        noteIndex = (noteIndex + 1) % notes.length;
+        noteIndex = (noteIndex + 1) % melody.length;
       } catch (e) {
         // ignore audio errors
       }
     };
 
-    this.timerId = setInterval(playNextNote, 1200);
+    this.timerId = setInterval(playNextNote, 1300);
   }
 
   public stopAmbientMusic() {
@@ -82,6 +89,58 @@ class SoundEngine {
       clearInterval(this.timerId);
       this.timerId = null;
     }
+  }
+
+  // Sonido corto tipo moneda / recompensa / puntos al ganar Felicidad o Exploración
+  public playPointGain() {
+    if (this.isMuted) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const notes = [987.77, 1318.51]; // B5 -> E6 (estilo moneda mágica)
+      notes.forEach((f, i) => {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f, now + i * 0.08);
+
+        gain.gain.setValueAtTime(0.06, now + i * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.18);
+
+        osc.connect(gain);
+        gain.connect(this.ctx!.destination);
+        osc.start(now + i * 0.08);
+        osc.stop(now + i * 0.08 + 0.18);
+      });
+    } catch (e) {}
+  }
+
+  // Sonido corto suave tipo pérdida / triste al restar Felicidad o Exploración
+  public playPointLoss() {
+    if (this.isMuted) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const notes = [349.23, 293.66]; // F4 -> D4 (descenso suave melancólico)
+      notes.forEach((f, i) => {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(f, now + i * 0.12);
+
+        gain.gain.setValueAtTime(0.045, now + i * 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.25);
+
+        osc.connect(gain);
+        gain.connect(this.ctx!.destination);
+        osc.start(now + i * 0.12);
+        osc.stop(now + i * 0.12 + 0.25);
+      });
+    } catch (e) {}
   }
 
   // Sound Effects

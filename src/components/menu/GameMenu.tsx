@@ -4,6 +4,7 @@ import { DEDICATIONS } from '../../data/dedications';
 import { SECRETS } from '../../data/secrets';
 import { EXPERIENCES } from '../../data/experiences';
 import { soundEngine } from '../../audio/soundEngine';
+import { getAssetUrl } from '../../utils/assets';
 import { X, Map, Sparkles, Heart, Compass, Shield, Settings, RotateCcw, Volume2, VolumeX, Eye } from 'lucide-react';
 
 interface GameMenuProps {
@@ -183,10 +184,20 @@ export const GameMenu: React.FC<GameMenuProps> = ({ onClose, onNavigateToMap, on
                       </div>
                       <p className="text-sm font-serif italic text-slate-200">{d.content}</p>
                       {d.placeholderPhoto && (
-                        <div className="text-[11px] font-mono text-emerald-400/70 bg-slate-950 p-2 rounded-xl border border-slate-800 flex items-center gap-2">
-                          <span>📷 Placeholder Foto:</span>
-                          <span className="text-amber-300">{d.placeholderPhoto}</span>
-                        </div>
+                        d.placeholderPhoto.endsWith('.png') || d.placeholderPhoto.startsWith('/') ? (
+                          <div className="mt-2 p-2 rounded-xl bg-slate-950/70 border border-emerald-800/40 flex items-center justify-center">
+                            <img
+                              src={getAssetUrl(d.placeholderPhoto)}
+                              alt={d.title}
+                              className="max-h-44 w-auto rounded-lg object-contain shadow-md"
+                            />
+                          </div>
+                        ) : (
+                          <div className="text-[11px] font-mono text-emerald-400/70 bg-slate-950 p-2 rounded-xl border border-slate-800 flex items-center gap-2">
+                            <span>📷 Foto:</span>
+                            <span className="text-amber-300">{d.placeholderPhoto}</span>
+                          </div>
+                        )
                       )}
                     </div>
                   ))}
@@ -290,7 +301,7 @@ export const GameMenu: React.FC<GameMenuProps> = ({ onClose, onNavigateToMap, on
                   <span>Reiniciar Viaje (Nuevo Viaje)</span>
                 </div>
                 <p className="text-xs text-slate-300">
-                  Reiniciar borrará todo el progreso guardado y comenzará la aventura desde el Nivel 1.
+                  ¿Seguro que quieres comenzar una nueva aventura? Se perderá todo el progreso y los puntos acumulados.
                 </p>
 
                 {!confirmReset ? (
@@ -305,10 +316,11 @@ export const GameMenu: React.FC<GameMenuProps> = ({ onClose, onNavigateToMap, on
                     <button
                       onClick={() => {
                         resetGame();
+                        onNavigateToMap();
                         setConfirmReset(false);
                         onClose();
                       }}
-                      className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all"
+                      className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all shadow-md"
                     >
                       Sí, Confirmar Reinicio
                     </button>

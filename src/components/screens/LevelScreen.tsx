@@ -42,9 +42,9 @@ export const LevelScreen: React.FC<LevelScreenProps> = ({
         ];
       case 4:
         return [
-          { character: 'manchas', text: '¡Bienvenida a nuestro hogar! Aquí cada rincón guarda recuerdos dulces.', animation: 'magicalAppear' },
-          { character: 'negro', text: 'Zafiro conoce pasadizos secretos y Kitty... bueno, Kitty está dormida en el pasillo.', animation: 'fadeIn' },
-          { character: 'mari', text: '¡Vamos a saludar a las gatas!', animation: 'bounce' }
+          { character: 'kitty', text: 'Odio a la humanidad... Pausa. A menos que me den croquetas.', animation: 'magicalAppear' },
+          { character: 'zafi', text: 'Existen más caminos de los que puedes imaginar.', animation: 'fadeIn' },
+          { character: 'kitty', text: 'Kitty está utilizando el camino y considera que eso es un problema tuyo.', animation: 'bounce' }
         ];
       case 7:
         return [

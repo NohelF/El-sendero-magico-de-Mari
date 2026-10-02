@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../state/GameContext';
 import { soundEngine } from '../audio/soundEngine';
+import { getAssetUrl } from '../utils/assets';
 import { Sparkles, Heart, Compass, CheckCircle2, Search } from 'lucide-react';
 
 interface MinigameProps {
@@ -10,8 +11,11 @@ interface MinigameProps {
 interface GardenSpot {
   id: string;
   name: string;
+  category: 'árboles' | 'flores' | 'rocas' | 'arbustos' | 'sendero';
   icon: string;
   hint: string;
+  x: number; // percentage in stage
+  y: number; // percentage in stage
   contains: 'manchas' | 'negro' | 'empty';
   emptyMessage: string;
 }
@@ -22,57 +26,64 @@ export const Level1_GardenTracks: React.FC<MinigameProps> = ({ onComplete }) => 
   const [foundManchas, setFoundManchas] = useState(false);
   const [foundNegro, setFoundNegro] = useState(false);
   const [currentFeedback, setCurrentFeedback] = useState<string>(
-    'Explora los rincones del jardín para encontrar a Manchas y a Negro escondidos entre la magia.'
+    'Explora los árboles, flores, rocas, arbustos y el sendero para encontrar a Manchas y a Negro.'
   );
 
   const spots: GardenSpot[] = [
     {
-      id: 'spot-rosal',
-      name: 'Rosal Dorado',
-      icon: '🌹',
-      hint: 'Pétalos suaves que brillan con el sol',
-      contains: 'manchas',
-      emptyMessage: 'Solo suaves pétalos perfumados...'
-    },
-    {
-      id: 'spot-fuente',
-      name: 'Fuente Cristalina',
-      icon: '⛲',
-      hint: 'Agua pura que susurra memorias',
+      id: 'spot-arboles',
+      name: 'Los Altos Árboles',
+      category: 'árboles',
+      icon: '🌲',
+      hint: 'Ramas altas envueltas en brisa fresca',
+      x: 18,
+      y: 20,
       contains: 'empty',
-      emptyMessage: 'El agua cristalina refleja el cielo, pero aquí no hay nadie.'
+      emptyMessage: 'Entre las ramas de los árboles solo se escucha el cantar del viento...'
     },
     {
-      id: 'spot-sauce',
-      name: 'Bajo el Sauce Mágico',
+      id: 'spot-arbustos',
+      name: 'Los Arbustos Espesos',
+      category: 'arbustos',
       icon: '🌿',
-      hint: 'Hojas largas que crean sombras secretas',
+      hint: 'Hojas oscuras con sombras protectoras',
+      x: 52,
+      y: 28,
       contains: 'negro',
-      emptyMessage: 'Las ramas bailan con el viento suave...'
+      emptyMessage: 'Un crujido suave de hojas...'
     },
     {
-      id: 'spot-banco',
-      name: 'Banca de Piedra Antigua',
-      icon: '🪑',
-      hint: 'Un lugar sereno para descansar',
-      contains: 'empty',
-      emptyMessage: 'Un cojín de musgo tibio. Alguien estuvo aquí hace poco.'
-    },
-    {
-      id: 'spot-jazmin',
-      name: 'Arbusto de Jazmín',
+      id: 'spot-flores',
+      name: 'Rincón de Flores Mágicas',
+      category: 'flores',
       icon: '🌸',
-      hint: 'Aroma dulce y hojas resplandecientes',
-      contains: 'empty',
-      emptyMessage: 'Unas mariposas doradas alzan el vuelo al acercarte.'
+      hint: 'Pétalos dorados y jazmines que brillan',
+      x: 82,
+      y: 35,
+      contains: 'manchas',
+      emptyMessage: 'Pétalos suaves y mariposas de luz...'
     },
     {
-      id: 'spot-seto',
-      name: 'Rincón de Tréboles',
-      icon: '🍀',
-      hint: 'Tréboles luminosos entre la hierba',
+      id: 'spot-rocas',
+      name: 'Las Rocas de Musgo',
+      category: 'rocas',
+      icon: '🪨',
+      hint: 'Piedras ancestrales junto al riachuelo',
+      x: 22,
+      y: 72,
       contains: 'empty',
-      emptyMessage: 'Muchos tréboles de la suerte, pero ningún gatito por aquí.'
+      emptyMessage: 'Piedras tibias cubiertas de musgo suave. Nadie por aquí.'
+    },
+    {
+      id: 'spot-sendero',
+      name: 'El Sendero Empedrado',
+      category: 'sendero',
+      icon: '🛤️',
+      hint: 'El camino de tierra y hojas doradas',
+      x: 75,
+      y: 75,
+      contains: 'empty',
+      emptyMessage: 'El sendero continúa despejado hacia el bosque...'
     }
   ];
 
@@ -84,12 +95,12 @@ export const Level1_GardenTracks: React.FC<MinigameProps> = ({ onComplete }) => 
     if (spot.contains === 'manchas') {
       soundEngine.playSparkle();
       setFoundManchas(true);
-      setCurrentFeedback('¡Encontraste a Manchas! 🐾 Blanco con manchas negras, acurrucado felizmente.');
+      setCurrentFeedback('¡Encontraste a Manchas entre las flores! 🐾 Blanco con manchas negras, feliz de verte.');
       addLifePoints(75, '❤️ +75 Puntos de Felicidad: ¡Encontraste a Manchas!');
     } else if (spot.contains === 'negro') {
       soundEngine.playSparkle();
       setFoundNegro(true);
-      setCurrentFeedback('¡Encontraste a Negro! 🐈‍⬛ Con su pelaje oscuro y ojos llenos de estrellas curiosas.');
+      setCurrentFeedback('¡Encontraste a Negro entre los arbustos! 🐈‍⬛ Espíritu guía con ojos de estrellas curiosas.');
       addLifePoints(75, '🔎 +75 Puntos de Exploración: ¡Encontraste a Negro!');
     } else {
       soundEngine.playClick();
@@ -100,18 +111,18 @@ export const Level1_GardenTracks: React.FC<MinigameProps> = ({ onComplete }) => 
   const allFound = foundManchas && foundNegro;
 
   return (
-    <div className="w-full max-w-xl mx-auto p-5 sm:p-6 bg-slate-900/80 border border-emerald-600/40 rounded-3xl shadow-2xl backdrop-blur-md text-emerald-100 flex flex-col gap-5">
+    <div className="w-full max-w-xl mx-auto p-4 sm:p-6 bg-slate-900/85 border border-emerald-600/40 rounded-3xl shadow-2xl backdrop-blur-md text-emerald-100 flex flex-col gap-4">
       {/* Header */}
       <div className="p-4 rounded-2xl bg-emerald-950/60 border border-emerald-700/40 text-center space-y-2">
         <div className="flex items-center justify-center gap-3">
-          <span className="text-3xl animate-bounce">🐈</span>
+          <span className="text-2xl sm:text-3xl animate-bounce">🐈</span>
           <h3 className="font-serif font-bold text-amber-200 text-lg sm:text-xl">
             Encuentra a Manchas y a Negro
           </h3>
-          <span className="text-3xl animate-bounce" style={{ animationDelay: '0.2s' }}>🐈‍⬛</span>
+          <span className="text-2xl sm:text-3xl animate-bounce" style={{ animationDelay: '0.2s' }}>🐈‍⬛</span>
         </div>
-        <p className="text-xs text-slate-300">
-          Toca las zonas del jardín para descubrir a tus dos compañeros espirituales.
+        <p className="text-xs text-slate-300 font-serif">
+          Explora los rincones del bosque encantado: árboles, arbustos, flores, rocas y el sendero.
         </p>
 
         {/* Status badges */}
@@ -145,8 +156,30 @@ export const Level1_GardenTracks: React.FC<MinigameProps> = ({ onComplete }) => 
         {currentFeedback}
       </div>
 
-      {/* Garden Spots Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      {/* Enchanted Garden / Forest Stage Canvas */}
+      <div className="relative w-full h-80 sm:h-96 rounded-2xl bg-gradient-to-b from-emerald-950/90 via-slate-950 to-emerald-950/90 border-2 border-emerald-700/60 overflow-hidden shadow-inner select-none">
+        {/* Enchanted Forest Scenic Background Graphic */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.18),transparent_75%)] pointer-events-none" />
+
+        {/* Ambient forest scenery */}
+        <div className="absolute top-2 left-6 text-5xl opacity-20 pointer-events-none">🌲</div>
+        <div className="absolute top-10 left-28 text-3xl opacity-15 pointer-events-none">🌳</div>
+        <div className="absolute top-4 right-10 text-4xl opacity-20 pointer-events-none">🌲</div>
+        <div className="absolute bottom-6 left-12 text-4xl opacity-25 pointer-events-none">🪨</div>
+        <div className="absolute bottom-3 right-20 text-3xl opacity-25 pointer-events-none">🌸</div>
+
+        {/* Visual Winding Path in the garden */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none stroke-amber-500/25">
+          <path
+            d="M 50 280 Q 200 240, 300 290 T 500 260"
+            fill="none"
+            strokeWidth="20"
+            strokeLinecap="round"
+            className="opacity-40"
+          />
+        </svg>
+
+        {/* Interactive Spots Scattered Organically */}
         {spots.map(spot => {
           const inspected = inspectedSpots.includes(spot.id);
           const hasManchas = spot.contains === 'manchas';
@@ -157,40 +190,56 @@ export const Level1_GardenTracks: React.FC<MinigameProps> = ({ onComplete }) => 
               key={spot.id}
               onClick={() => handleSpotClick(spot)}
               disabled={inspected}
-              className={`h-28 rounded-2xl border p-2 text-center transition-all flex flex-col items-center justify-center gap-1 active:scale-95 ${
+              style={{
+                left: `${spot.x}%`,
+                top: `${spot.y}%`,
+                transform: 'translate(-50%, -50%)'
+              }}
+              className={`absolute z-10 transition-all duration-300 flex flex-col items-center cursor-pointer ${
                 inspected && hasManchas
-                  ? 'bg-amber-500/25 border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.4)]'
+                  ? 'scale-110'
                   : inspected && hasNegro
-                  ? 'bg-indigo-500/25 border-indigo-400 shadow-[0_0_15px_rgba(129,140,248,0.4)]'
+                  ? 'scale-110'
                   : inspected
-                  ? 'bg-slate-800/50 border-slate-700/60 opacity-60'
-                  : 'bg-slate-800/90 hover:bg-slate-750 border-emerald-800/60 hover:border-emerald-500 cursor-pointer'
+                  ? 'opacity-60 scale-90'
+                  : 'hover:scale-115 active:scale-95'
               }`}
             >
               {inspected && hasManchas ? (
                 <div className="flex flex-col items-center animate-fadeIn">
-                  <img
-                    src="/assets/characters/manchas.png"
-                    alt="Manchas"
-                    className="w-14 h-14 object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] animate-bounce"
-                  />
-                  <span className="text-[11px] font-bold text-amber-200 font-serif">¡Manchas!</span>
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-amber-500/25 border-2 border-amber-400 p-1 shadow-[0_0_20px_rgba(245,158,11,0.6)] flex items-center justify-center">
+                    <img
+                      src={getAssetUrl('assets/characters/manchas.png')}
+                      alt="Manchas"
+                      className="w-full h-full object-contain animate-bounce"
+                    />
+                  </div>
+                  <span className="mt-1 px-2 py-0.5 rounded-full bg-slate-950/90 border border-amber-400 text-[10px] font-bold text-amber-200 font-serif">
+                    ¡Manchas!
+                  </span>
                 </div>
               ) : inspected && hasNegro ? (
                 <div className="flex flex-col items-center animate-fadeIn">
-                  <img
-                    src="/assets/characters/negro.png"
-                    alt="Negro"
-                    className="w-14 h-14 object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] animate-bounce"
-                  />
-                  <span className="text-[11px] font-bold text-indigo-200 font-serif">¡Negro!</span>
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-indigo-500/25 border-2 border-indigo-400 p-1 shadow-[0_0_20px_rgba(129,140,248,0.6)] flex items-center justify-center">
+                    <img
+                      src={getAssetUrl('assets/characters/negro.png')}
+                      alt="Negro"
+                      className="w-full h-full object-contain animate-bounce"
+                    />
+                  </div>
+                  <span className="mt-1 px-2 py-0.5 rounded-full bg-slate-950/90 border border-indigo-400 text-[10px] font-bold text-indigo-200 font-serif">
+                    ¡Negro!
+                  </span>
                 </div>
               ) : (
-                <>
-                  <span className="text-2xl">{spot.icon}</span>
-                  <span className="font-serif font-bold text-xs text-slate-200">{spot.name}</span>
-                  <span className="text-[9px] text-slate-400 leading-tight line-clamp-1">{spot.hint}</span>
-                </>
+                <div className="flex flex-col items-center group">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-900/80 hover:bg-slate-800 border-2 border-emerald-500/60 group-hover:border-amber-400 flex items-center justify-center text-2xl sm:text-3xl shadow-lg transition-all">
+                    <span>{spot.icon}</span>
+                  </div>
+                  <span className="mt-1 px-2 py-0.5 rounded-full bg-slate-950/90 border border-emerald-800/80 text-[10px] font-serif font-bold text-emerald-200 whitespace-nowrap shadow">
+                    {spot.name}
+                  </span>
+                </div>
               )}
             </button>
           );

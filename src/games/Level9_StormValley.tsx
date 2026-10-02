@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../state/GameContext';
 import { soundEngine } from '../audio/soundEngine';
-import { CheckCircle2, Search, Compass, Heart } from 'lucide-react';
+import { CheckCircle2, Compass, Heart } from 'lucide-react';
 
 interface MinigameProps {
   onComplete: () => void;
@@ -130,14 +130,22 @@ export const Level9_StormValley: React.FC<MinigameProps> = ({ onComplete }) => {
   return (
     <div className="w-full max-w-xl mx-auto p-5 sm:p-6 bg-slate-900/80 border border-emerald-600/40 rounded-3xl shadow-2xl backdrop-blur-md text-emerald-100 flex flex-col gap-4">
       {/* Header */}
-      <div className="p-4 rounded-2xl bg-emerald-950/60 border border-emerald-700/40 text-center space-y-1">
-        <Search className="w-6 h-6 text-amber-300 mx-auto animate-pulse" />
-        <h3 className="font-serif font-bold text-amber-200 text-lg sm:text-xl">
-          🦋 Sopa de Letras Mágica
-        </h3>
-        <p className="text-xs text-slate-300">
-          Encuentra las 5 palabras sagradas del sendero escondidas en la cuadrícula mística.
-        </p>
+      <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-700/60 text-center space-y-1">
+        <div className="flex items-center justify-center gap-3">
+          <img
+            src="/assets/characters/cuervo_de_la_duda.png"
+            alt="Cuervo de la Duda"
+            className="w-12 h-12 object-contain drop-shadow"
+          />
+          <div>
+            <h3 className="font-serif font-bold text-slate-200 text-lg sm:text-xl flex items-center justify-center gap-1.5">
+              <span>El Valle de las Tormentas</span>
+            </h3>
+            <p className="text-xs text-slate-400 font-serif italic">
+              Escucha la voz de la duda y descubre las palabras que disipan la niebla
+            </p>
+          </div>
+        </div>
 
         <div className="flex items-center justify-center gap-3 pt-1 font-mono text-xs text-amber-300">
           <span>Palabras encontradas: {foundCount} / 5</span>

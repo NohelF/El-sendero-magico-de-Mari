@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../state/GameContext';
 import { soundEngine } from '../audio/soundEngine';
+import { getAssetUrl } from '../utils/assets';
 import { Star, Compass, CheckCircle2 } from 'lucide-react';
 
 interface MinigameProps {
@@ -128,10 +129,18 @@ export const Level5_BridgesOfFriendship: React.FC<MinigameProps> = ({ onComplete
       {/* Victory Screen */}
       {isDone && (
         <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950 via-slate-900 to-amber-950 border border-amber-400 text-center space-y-3 animate-fadeIn">
+          <div className="relative mx-auto w-32 h-24 sm:w-40 sm:h-28 rounded-2xl overflow-hidden border-2 border-amber-400/80 shadow-[0_0_20px_rgba(245,158,11,0.4)] bg-slate-950/80 flex items-center justify-center">
+            <img
+              src={getAssetUrl('assets/characters/amigos.png')}
+              alt="Amigos"
+              className="w-full h-full object-contain drop-shadow"
+            />
+          </div>
+
           <div className="flex items-center justify-center gap-2">
             <CheckCircle2 className="w-5 h-5 text-amber-300" />
             <h4 className="font-serif font-bold text-amber-200 text-base">
-              ¡El Valle de los Puentes resplandece!
+              🌉 Puentes de Amistad — ¡El Valle resplandece!
             </h4>
           </div>
 

@@ -105,12 +105,15 @@ export const WheelOf33: React.FC = () => {
                     }}
                   />
                   <div
-                    className="absolute z-10 text-center font-serif text-[11px] sm:text-xs font-bold text-amber-200"
+                    className="absolute z-10 text-center font-serif text-[10px] sm:text-xs font-bold text-amber-200 flex flex-col items-center pointer-events-none"
                     style={{
-                      transform: `rotate(${sliceAngle / 2}deg) translateY(-100px)`
+                      transform: `rotate(${sliceAngle / 2}deg) translateY(-85px)`
                     }}
                   >
-                    <span>{reward.icon}</span>
+                    <span className="text-base sm:text-lg">{reward.icon}</span>
+                    <span className="text-[8px] sm:text-[9px] max-w-[65px] leading-tight drop-shadow font-sans text-amber-100">
+                      {reward.title}
+                    </span>
                   </div>
                 </div>
               );

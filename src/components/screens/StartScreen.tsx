@@ -3,6 +3,7 @@ import { useGame } from '../../state/GameContext';
 import { Fireflies } from '../particles/Fireflies';
 import { Stars } from '../particles/Stars';
 import { soundEngine } from '../../audio/soundEngine';
+import { getAssetUrl } from '../../utils/assets';
 import { Volume2, VolumeX, HelpCircle, Sparkles, BookOpen, Settings } from 'lucide-react';
 
 interface StartScreenProps {
@@ -84,7 +85,7 @@ const MariTarotCard: React.FC = () => {
               }}
             >
               <img
-                src="/assets/characters/mari.png"
+                src={getAssetUrl('assets/characters/mari.png')}
                 alt="Mari — La Protagonista"
                 className="w-full h-full object-contain object-center"
                 style={{

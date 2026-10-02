@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../state/GameContext';
 import { soundEngine } from '../audio/soundEngine';
+import { getAssetUrl } from '../utils/assets';
 import { Sparkles, CheckCircle2, RotateCcw, Compass } from 'lucide-react';
 
 interface MinigameProps {
@@ -222,10 +223,18 @@ export const Level6_BackpackPacking: React.FC<MinigameProps> = ({ onComplete }) 
       {/* Victory Screen */}
       {isDone && (
         <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950 via-slate-900 to-amber-950 border border-emerald-400 text-center space-y-3 animate-fadeIn">
+          <div className="relative mx-auto w-32 h-24 sm:w-40 sm:h-28 rounded-2xl overflow-hidden border-2 border-emerald-400/80 shadow-[0_0_20px_rgba(16,185,129,0.4)] bg-slate-950/80 flex items-center justify-center">
+            <img
+              src={getAssetUrl('assets/characters/mentoras.png')}
+              alt="Mentoras"
+              className="w-full h-full object-contain drop-shadow"
+            />
+          </div>
+
           <div className="flex items-center justify-center gap-2">
             <CheckCircle2 className="w-5 h-5 text-emerald-400" />
             <h4 className="font-serif font-bold text-amber-200 text-base">
-              ¡Sudoku Mágico Resuelto en Armonía!
+              🛤️ Mentoras y Sabias del Camino
             </h4>
           </div>
 

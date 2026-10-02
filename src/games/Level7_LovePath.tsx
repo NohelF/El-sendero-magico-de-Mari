@@ -62,10 +62,10 @@ export const Level7_LovePath: React.FC<MinigameProps> = ({ onComplete }) => {
       <div className="p-4 rounded-2xl bg-rose-950/40 border border-rose-500/40 text-center space-y-1">
         <Heart className="w-7 h-7 text-rose-400 mx-auto animate-pulse" />
         <h3 className="font-serif font-bold text-rose-200 text-lg sm:text-xl">
-          🧩 Rompecabezas del Amor (Mari)
+          🧩 Rompecabezas del Amor (Mari & Nohel)
         </h3>
         <p className="text-xs text-slate-300">
-          Toca una pieza y luego otra para intercambiarlas de lugar hasta recomponer el retrato de Mari.
+          Toca una pieza y luego otra para intercambiarlas de lugar hasta recomponer el retrato de Mari y Nohel.
         </p>
       </div>
 
@@ -114,7 +114,7 @@ export const Level7_LovePath: React.FC<MinigameProps> = ({ onComplete }) => {
                 onClick={() => handlePieceClick(slotIndex)}
                 disabled={isDone}
                 style={{
-                  backgroundImage: 'url(/assets/characters/mari.png)',
+                  backgroundImage: 'url(/assets/characters/mariynohel.png)',
                   backgroundSize: '300% 300%',
                   backgroundPosition: `${posX}% ${posY}%`,
                   backgroundColor: '#064e3b'

@@ -3,50 +3,50 @@ import type { Dedication } from '../state/types';
 export const DEDICATIONS: Dedication[] = [
   {
     id: 'dedication_mother',
-    title: 'El Abrazo de las Raíces',
+    title: 'El Amor de Madre',
     category: 'familia',
-    content: 'Antes de aprender a caminar por el mundo, alguien nos enseñó dónde poner los pies y cuidó nuestros primeros pasos. [DEDICATORIA_FAMILIA_01]',
-    placeholderPhoto: '[FOTO_FAMILIA_01]',
+    content: 'Una madre cuidadora, siempre atenta, fuerte y trabajadora. De temple protector, firme y a veces tosco, pero con un amor tan profundo y verdadero que sostiene cada paso de tu vida.',
+    placeholderPhoto: '/assets/characters/mama.png',
     unlockedAtLevel: 2
   },
   {
     id: 'dedication_siblings',
     title: 'Las Ramas del Mismo Árbol',
     category: 'familia',
-    content: 'Crecer juntos significa compartir raíces, risas imprevistas y complicidades que permanecen firmes contra cualquier viento. [DEDICATORIA_FAMILIA_02]',
-    placeholderPhoto: '[FOTO_FAMILIA_02]',
+    content: 'Crecer juntos significa compartir raíces, risas imprevistas y complicidades que permanecen firmes contra cualquier viento.',
+    placeholderPhoto: '/assets/characters/familia.png',
     unlockedAtLevel: 3
   },
   {
     id: 'dedication_cats',
     title: 'Refugio de Cuatro Patas',
     category: 'personal',
-    content: 'Manchas, Negro, Kitty y Zafiro no solo llenan la casa de ronroneos; enseñan lo dulce que es el amor incondicional. [RECUERDO_GATAS_01]',
-    placeholderPhoto: '[FOTO_GATAS_01]',
+    content: 'Manchas, Negro, Kitty y Zafiro no solo llenan la casa de ronroneos; enseñan lo dulce que es el amor incondicional.',
+    placeholderPhoto: '/assets/characters/kitty.png',
     unlockedAtLevel: 4
   },
   {
     id: 'dedication_friends',
     title: 'Puentes de Luz',
     category: 'amigos',
-    content: 'Algunas personas cruzan un puente con nosotros; otras se quedan a construir refugios en el camino. Todas dejan huella. [DEDICATORIA_AMIGOS_01]',
-    placeholderPhoto: '[FOTO_AMIGO_01]',
+    content: 'Algunas personas cruzan un puente con nosotros; otras se quedan a construir refugios en el camino. Todas dejan huella.',
+    placeholderPhoto: '/assets/characters/amigos.png',
     unlockedAtLevel: 5
   },
   {
     id: 'dedication_mentors',
     title: 'Compañeros de Pasaje',
     category: 'amigos',
-    content: 'Aprender de quienes caminaron cerca de nosotros nos regala herramientas valiosas que llevamos en la mochila para siempre. [DEDICATORIA_MENTORES_01]',
-    placeholderPhoto: '[FOTO_MENTOR_01]',
+    content: 'Aprender de quienes caminaron cerca de nosotros nos regala herramientas valiosas que llevamos en la mochila para siempre.',
+    placeholderPhoto: '/assets/characters/mentoras.png',
     unlockedAtLevel: 6
   },
   {
     id: 'dedication_love',
     title: 'El Sendero Compartido',
     category: 'pareja',
-    content: 'Dos caminos que comenzaron en lugares distintos y, sin darse cuenta, fueron construyendo juntos el paisaje más hermoso. [DEDICATORIA_PAREJA_01]',
-    placeholderPhoto: '[FOTO_MARI_NOHEL_01]',
+    content: 'Dos caminos que comenzaron en lugares distintos y, sin darse cuenta, fueron construyendo juntos el paisaje más hermoso.',
+    placeholderPhoto: '/assets/characters/mariynohel.png',
     unlockedAtLevel: 7
   },
   {

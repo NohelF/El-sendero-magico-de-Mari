@@ -61,7 +61,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [gameState]);
 
   const addLifePoints = (points: number, _reason?: string) => {
-    soundEngine.playSparkle();
+    if (points <= 0) return;
+    soundEngine.playPointGain();
     setGameState(prev => {
       const newPoints = prev.lifePoints + points;
       return {
@@ -73,7 +74,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const deductLifePoints = (points: number, _obstacleName?: string) => {
-    soundEngine.playObstacle();
+    if (points <= 0) return;
+    soundEngine.playPointLoss();
     setGameState(prev => {
       const newPoints = Math.max(0, prev.lifePoints - points);
       return {

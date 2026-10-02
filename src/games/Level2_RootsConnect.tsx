@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../state/GameContext';
 import { soundEngine } from '../audio/soundEngine';
+import { getAssetUrl } from '../utils/assets';
 import { Heart, Timer, Sparkles, Play } from 'lucide-react';
 
 interface MinigameProps {
@@ -217,18 +218,22 @@ export const Level2_RootsConnect: React.FC<MinigameProps> = ({ onComplete }) => 
         )}
 
         {gameState === 'completed' && (
-          <div className="text-center space-y-3 z-10 p-4 animate-fadeIn">
-            <div className="w-14 h-14 rounded-full bg-rose-500/20 border border-rose-400 mx-auto flex items-center justify-center text-3xl">
-              ❤️
+          <div className="text-center space-y-2.5 z-10 p-4 animate-fadeIn max-w-md mx-auto">
+            <div className="relative mx-auto w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-rose-400/80 shadow-[0_0_20px_rgba(244,63,94,0.4)] bg-slate-950/80 flex items-center justify-center">
+              <img
+                src={getAssetUrl('assets/characters/mama.png')}
+                alt="Amor de Madre"
+                className="w-full h-full object-contain drop-shadow"
+              />
             </div>
             <h4 className="font-serif font-bold text-rose-200 text-lg">
-              ¡Corazones Atrapados con Éxito!
+              ❤️ Amor de Madre
             </h4>
-            <p className="text-xs text-slate-300 font-serif max-w-xs mx-auto">
-              Obtuviste <strong className="text-rose-300">+{happinessPoints} Puntos de Felicidad</strong> y conectaste las raíces del amor maternal.
+            <p className="text-xs text-slate-200 font-serif leading-relaxed italic px-2">
+              "Una madre cuidadora, siempre atenta, fuerte y trabajadora. De temple protector, firme y a veces tosco, pero con un amor tan profundo y verdadero que sostiene cada paso de tu vida."
             </p>
             <div className="text-[11px] font-mono text-amber-300 bg-slate-950/80 px-3 py-1 rounded-full border border-amber-500/40 inline-block">
-              💌 Dedicatoria Desbloqueada: [Amor de Madre]
+              💌 Dedicatoria Desbloqueada: [Amor de Madre] (+{happinessPoints} Felicidad)
             </div>
           </div>
         )}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useGame } from '../state/GameContext';
 import { soundEngine } from '../audio/soundEngine';
+import { getAssetUrl } from '../utils/assets';
 import { Compass, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 interface MinigameProps {
@@ -159,7 +160,7 @@ export const Level4_CatSanctuary: React.FC<MinigameProps> = ({ onComplete }) => 
                     <span className="opacity-40 text-xs">🌲</span>
                   ) : isPlayer ? (
                     <img
-                      src="/assets/characters/mari.png"
+                      src={getAssetUrl('assets/characters/mari.png')}
                       alt="Mari"
                       className="w-8 h-8 object-contain drop-shadow"
                     />
